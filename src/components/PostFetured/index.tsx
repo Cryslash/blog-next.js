@@ -1,5 +1,6 @@
 import { PostCoverImage } from '../PostCoverImage';
 import { PostHeading } from '../PostHeading';
+import { PostSummary } from '../PostSummary';
 
 export function PostFetured() {
   const slug = 'adsasd';
@@ -19,20 +20,15 @@ export function PostFetured() {
           priority: true,
         }}
       />
-      <div className='flex flex-col gap-4 sm:justify-center'>
-        <time className='text-slate-600 text-sm' dateTime='2025-06-05'>
-          05/06/2025 13:53
-        </time>
-        <PostHeading as='h1' url={postLink}>
-          Lorem ipsum dolor sit amet.
-        </PostHeading>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil
-          quibusdam totam iusto, asperiores saepe eveniet laboriosam
-          exercitationem, officiis sint blanditiis in nostrum laudantium
-          voluptatum quia placeat dignissimos commodi, error sed.
-        </p>
-      </div>
+      <PostSummary
+        postHeading='h2'
+        postLink={postLink}
+        title={'Dicas para manter a saúde mental em dia'}
+        createdAt={'2025-04-07T00:24:38.616Z'}
+        excerpt={
+          'Em vez de configurar tudo manualmente, basta criar um arquivo com o nome certo e o Next.js entende que aquilo representa uma página.'
+        }
+      />
     </section>
   );
 }
