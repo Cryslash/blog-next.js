@@ -10,7 +10,9 @@ export default async function HomePage() {
     <Container>
       <Header />
 
-      <PostFetured />
+      <Suspense fallback={<SpinLoader />}>
+        <PostFetured />
+      </Suspense>
 
       <Suspense fallback={<SpinLoader />}>
         <PostsList />
