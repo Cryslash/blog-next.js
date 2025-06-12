@@ -4,7 +4,8 @@ import { deletePostAction } from '@/app/actions/delete-post-action';
 import clsx from 'clsx';
 import { Trash2Icon } from 'lucide-react';
 import { useState, useTransition } from 'react';
-import { Dialog } from '../Dialog';
+import { Dialog } from '../../Dialog';
+import { toast } from 'react-toastify';
 
 type DeletePostButtonProps = {
   title: string;
@@ -20,13 +21,17 @@ export function DeletePostButton({ title, id }: DeletePostButtonProps) {
   }
 
   function handleConfirm() {
+    toast.dismiss();
+
     startTransition(async () => {
       const result = await deletePostAction(id);
       setShowDialog(false);
 
       if (result.error) {
-        alert(`Erro: ${result.error}`);
+        toast.error(result.error);
+        return;
       }
+      toast.success('Post apagado com sucesso!');
     });
   }
 
