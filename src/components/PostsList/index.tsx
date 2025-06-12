@@ -6,6 +6,8 @@ export async function PostsList() {
   // await new Promise(r => setTimeout(r, 5000));
   const posts = await findAllPublicPostsCached();
 
+  if (posts.length <= 0) return null;
+
   return (
     <div className='grid grid-cols-1 mb-16 gap-8 sm:grid-cols-2 lg:grid-cols-3'>
       {posts.slice(1).map(post => {
