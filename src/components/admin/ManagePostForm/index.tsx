@@ -1,63 +1,74 @@
 'use client';
 
 import { Button } from '@/components/Button';
-import { ImageUploader } from '@/components/ImageUploader';
 import { InputCheckBox } from '@/components/InputCheckBox';
 import { InputText } from '@/components/InputText';
 import { MarkdownEditor } from '@/components/MarkdownEditor';
-import { PublicPost } from '@/dto/post/dto';
-import { useState } from 'react';
+import { useActionState, useState } from 'react';
+import { ImageUploader } from '@/components/ImageUploader';
+import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
+import { createPostAction } from '@/actions/posts/create-post-action';
 
 type ManagePostFormProps = {
   publicPost?: PublicPost;
 };
 
 export function ManagePostForm({ publicPost }: ManagePostFormProps) {
+  const initialState = {
+    formState: makePartialPublicPost(publicPost),
+    errors: [],
+  };
+  const [state, action, isPending] = useActionState(
+    createPostAction,
+    initialState,
+  );
+
+  const { formState } = state;
   const [contentValue, setContentValue] = useState(publicPost?.content || '');
 
   return (
-    <form action='' className='mb-16'>
+    <form action={action} className='mb-16'>
       <div className='flex flex-col gap-6'>
         <InputText
           labelText='ID'
           name='id'
-          type='text'
           placeholder='ID gerado automaticamente'
-          defaultValue={publicPost?.id || ''}
+          type='text'
+          defaultValue={formState.id}
           readOnly
         />
 
         <InputText
-          labelText='SLUG'
+          labelText='Slug'
           name='slug'
-          type='text'
           placeholder='Slug gerada automaticamente'
-          defaultValue={publicPost?.slug || ''}
+          type='text'
+          defaultValue={formState.slug}
           readOnly
         />
 
         <InputText
           labelText='Autor'
           name='author'
-          type='Digite o nome do autor'
-          placeholder='Digite o título'
-          defaultValue={publicPost?.author || ''}
+          placeholder='Digite o nome do autor'
+          type='text'
+          defaultValue={formState.author}
         />
 
         <InputText
           labelText='Título'
           name='title'
-          type='text'
           placeholder='Digite o título'
-          defaultValue={publicPost?.title || ''}
+          type='text'
+          defaultValue={formState.title}
         />
 
         <InputText
           labelText='Excerto'
           name='excerpt'
-          type='text'
           placeholder='Digite o resumo'
-          defaultValue={publicPost?.excerpt || ''}
+          type='text'
+          defaultValue={formState.excerpt}
         />
 
         <MarkdownEditor
@@ -73,16 +84,16 @@ export function ManagePostForm({ publicPost }: ManagePostFormProps) {
         <InputText
           labelText='URL da imagem de capa'
           name='coverImageUrl'
-          type='text'
           placeholder='Digite a url da imagem'
-          defaultValue={publicPost?.coverImageUrl || ''}
+          type='text'
+          defaultValue={formState.coverImageUrl}
         />
 
         <InputCheckBox
           labelText='Publicar?'
           name='published'
           type='checkbox'
-          defaultChecked={publicPost?.published || false}
+          defaultChecked={formState.published}
         />
 
         <div className='mt-4'>
