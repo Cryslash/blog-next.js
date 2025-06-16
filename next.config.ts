@@ -1,23 +1,24 @@
 import type { NextConfig } from 'next';
 
-// module.exports = {
-//   async headers() {
-//     return [
-//       {
-//         source: '/:path*{/}?',
-//         headers: [
-//           {
-//             key: 'X-Accel-Buffering',
-//             value: 'no',
-//           },
-//         ],
-//       },
-//     ];
-//   },
-// };
-
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+        search: '',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+        pathname: '/**',
+        search: '',
+      },
+    ],
+  },
 };
 
 export default nextConfig;
