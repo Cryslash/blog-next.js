@@ -1,19 +1,20 @@
 'use server';
 
-import { drizzleDb } from '@/db/drizzle';
-import { postsTable } from '@/db/drizzle/schemas';
 import { makePartialPublicPost, PublicPost } from '@/dto/post/dto';
 import { PostCreateSchema } from '@/lib/posts/validation';
 import { PostModel } from '@/models/post/post-model';
+import { postRepository } from '@/repositories/post';
+import { AsyncDelay } from '@/utils/async-delay';
 import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
 import { MakeSlugFromText } from '@/utils/make-slug-from-text';
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { v4 as uuidV4 } from 'uuid';
 
 type CreatePostActionState = {
   formState: PublicPost;
   errors: string[];
+  success?: true;
 };
 
 export async function createPostAction(
@@ -21,6 +22,8 @@ export async function createPostAction(
   formData: FormData,
 ): Promise<CreatePostActionState> {
   // TODO: verificar se o usuário tá logado
+
+  await AsyncDelay(3000);
 
   if (!(formData instanceof FormData)) {
     return {
@@ -49,8 +52,22 @@ export async function createPostAction(
     slug: MakeSlugFromText(validPostData.title),
   };
 
-  await drizzleDb.insert(postsTable).values(newPost);
+  try {
+    await postRepository.create(newPost);
+  } catch (e: unknown) {
+    if (e instanceof Error) {
+      return {
+        formState: newPost,
+        errors: [e.message],
+      };
+    }
 
-  revalidatePath('posts');
-  redirect(`/admin/post/${newPost.id}`);
+    return {
+      formState: newPost,
+      errors: ['Erro desconhecido'],
+    };
+  }
+
+  revalidateTag('posts');
+  redirect(`/admin/post/${newPost.id}?created=1`);
 }
