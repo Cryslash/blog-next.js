@@ -7,7 +7,6 @@ import {
 } from '@/dto/post/dto';
 import { PostUpdateSchema } from '@/lib/posts/validation';
 import { postRepository } from '@/repositories/post';
-import { AsyncDelay } from '@/utils/async-delay';
 import { getZodErrorMessages } from '@/utils/get-zod-error-messages';
 import { revalidateTag } from 'next/cache';
 
@@ -22,8 +21,6 @@ export async function updatePostAction(
   formData: FormData,
 ): Promise<UpdatePostActionState> {
   // TODO: verificar se o usuário tá logado
-
-  await AsyncDelay(3000);
 
   if (!(formData instanceof FormData)) {
     return {
