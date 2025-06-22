@@ -1,11 +1,11 @@
 import clsx from 'clsx';
 
-type ButtonsVariants = 'default' | 'ghost' | 'danger';
-type ButtonsSizes = 'sm' | 'md' | 'lg';
+type ButtonVariants = 'default' | 'ghost' | 'danger';
+type ButtonSizes = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
-  variant?: ButtonsVariants;
-  size?: ButtonsSizes;
+  variant?: ButtonVariants;
+  size?: ButtonSizes;
 } & React.ComponentProps<'button'>;
 
 export function Button({
@@ -13,13 +13,13 @@ export function Button({
   size = 'md',
   ...props
 }: ButtonProps) {
-  const buttonVariants: Record<ButtonsVariants, string> = {
-    default: clsx('bg-blue-600 hover:bg-blue-700 text-blue-100 '),
-    ghost: clsx('bg-slate-300 hover:bg-slate-400 text-slate-900'),
+  const buttonVariants: Record<ButtonVariants, string> = {
+    default: clsx('bg-blue-600 hover:bg-blue-700 text-blue-100'),
+    ghost: clsx('bg-slate-300 hover:bg-slate-400 text-slate-950'),
     danger: clsx('bg-red-600 hover:bg-red-700 text-red-100'),
   };
 
-  const buttonSizes: Record<ButtonsSizes, string> = {
+  const buttonSizes: Record<ButtonSizes, string> = {
     sm: clsx(
       'text-xs/tight',
       'py-1',
@@ -46,13 +46,13 @@ export function Button({
   const buttonClasses = clsx(
     buttonVariants[variant],
     buttonSizes[size],
-    'flex items-center justify-center cursor-pointer transition',
-    'disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed',
+    'flex items-center justify-center cursor-pointer',
+    'transition',
+    'disabled:bg-slate-200',
+    'disabled:text-slate-400',
+    'disabled:cursor-not-allowed',
     props.className,
   );
-  return (
-    <div>
-      <button {...props} className={buttonClasses} />
-    </div>
-  );
+
+  return <button {...props} className={buttonClasses} />;
 }
