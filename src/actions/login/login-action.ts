@@ -2,7 +2,6 @@
 
 import { createLoginSession, verifyPassword } from '@/lib/login/manage-login';
 import { AsyncDelay } from '@/utils/async-delay';
-import { verify } from 'crypto';
 import { redirect } from 'next/navigation';
 
 type LoginActionState = {
@@ -11,7 +10,16 @@ type LoginActionState = {
 };
 
 export async function loginAction(state: LoginActionState, formData: FormData) {
-  await AsyncDelay(5000); //vou manter
+  const allowLogin = Boolean(Number(process.env.ALLOW_LOGIN));
+
+  if (!allowLogin) {
+    return {
+      username: '',
+      error: 'Login não permitido.',
+    };
+  }
+
+  await AsyncDelay(3000); //vou manter
 
   if (!(formData instanceof FormData)) {
     return {
@@ -30,6 +38,7 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
       error: 'Digite o usuário e a senha',
     };
   }
+
   //checa se o usuário existe na base de dados
   const isUsernameValid = username === process.env.LOGIN_USER;
   const isPasswordValid = await verifyPassword(
@@ -37,9 +46,9 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
     process.env.LOGIN_PASS || '',
   );
 
-  if (!isUsernameValid && !isPasswordValid) {
+  if (!isUsernameValid || !isPasswordValid) {
     return {
-      username: '',
+      username,
       error: 'Usuário ou senha inválidos',
     };
   }
