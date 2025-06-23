@@ -64,7 +64,7 @@ export class JsonPostRepository implements PostRepository {
     return post;
   }
 
-  async create(post: PostModel): Promise<PostModel> {Add commentMore actions
+  async create(post: PostModel): Promise<PostModel> {
     const posts = await this.findAll();
 
     if (!post.id || !post.slug) {
