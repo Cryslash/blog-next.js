@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "name": "autor",
+      "password": "JDJiJDEwJDIwenBZSVZiRUk1amE4d29LMk9uUS5sSnNadG9lR3NmNVRQSi9ZZGg3SE9sTjJmb3lpaGRl",
+      "userType": "author",
+      "isActive": true
+    },
+    {
+      "name": "admin",
+      "password": "JDJiJDEwJG9oMzZ5clNXbThSQjFIOHRXM2FZQWV0ZWQ1UlVoLmhGdy9Xck1aOEVmLkFkNmVqT3FvNEVX",
+      "userType": "admin",
+      "isActive": true
+    },
+    {
+      "name": "crys",
+      "password": "JDJiJDEwJDIwenBZSVZiRUk1amE4d29LMk9uUS5sSnNadG9lR3NmNVRQSi9ZZGg3SE9sTjJmb3lpaGRl",
+      "userType": "admin",
+      "isActive": true
+    },
+    {
+      "name": "crystofher lins",
+      "password": "JDJiJDEwJDIwenBZSVZiRUk1amE4d29LMk9uUS5sSnNadG9lR3NmNVRQSi9ZZGg3SE9sTjJmb3lpaGRl",
+      "userType": "author",
+      "isActive": true
+    },
+    {
+      "name": "teste",
+      "password": "JDJiJDEwJDIwenBZSVZiRUk1amE4d29LMk9uUS5sSnNadG9lR3NmNVRQSi9ZZGg3SE9sTjJmb3lpaGRl",
+      "userType": "author",
+      "isActive": false
+    }
+  ]
+}
