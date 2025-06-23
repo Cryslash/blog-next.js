@@ -1,6 +1,7 @@
 'use server';
 
 import { createLoginSession, verifyPassword } from '@/lib/login/manage-login';
+import { findUserByName } from '@/lib/users/queries/admin';
 import { AsyncDelay } from '@/utils/async-delay';
 import { redirect } from 'next/navigation';
 
@@ -40,10 +41,24 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
   }
 
   //checa se o usuário existe na base de dados
-  const isUsernameValid = username === process.env.LOGIN_USER;
-  const isPasswordValid = await verifyPassword(
-    password,
-    process.env.LOGIN_PASS || '',
+  // const isUsernameValid = username === process.env.LOGIN_USER;
+  // const isPasswordValid = await verifyPassword(
+  //   password,
+  //   process.env.LOGIN_PASS || '',
+  // );
+
+  const dbUser = await findUserByName(username);
+  if (!dbUser) {
+    return {
+      username,
+      error: 'Usuário ou senha inválidos',
+    };
+  }
+
+  const isUsernameValid = username === dbUser.name;
+  const isPasswordValid = await verifyPassword(password, dbUser.password || '');
+  console.log(
+    `nome: ${dbUser.name} - senha: ${dbUser.password} - valido?: ${isPasswordValid}`,
   );
 
   if (!isUsernameValid || !isPasswordValid) {
