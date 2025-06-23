@@ -14,5 +14,18 @@ export const postsTable = sqliteTable('posts', {
   updatedAt: text('updated_at').notNull(),
 });
 
+const userTypes = ['author', 'admin'] as const;
+
+export const usersTable = sqliteTable('users', {
+  id: integer('id').primaryKey({ autoIncrement: true }),
+  name: text('name').notNull().unique(),
+  password: text('password').notNull(),
+  userType: text('user_type', { enum: userTypes }).notNull().default('author'),
+  isActive: integer('isActive', { mode: 'boolean' }).notNull().default(true),
+});
+
 export type PostsTableSelectMode = InferSelectModel<typeof postsTable>;
 export type PostsTableInsertMode = InferInsertModel<typeof postsTable>;
+
+export type UsersTableSelectMode = InferSelectModel<typeof usersTable>;
+export type UsersTableInsertMode = InferInsertModel<typeof usersTable>;
