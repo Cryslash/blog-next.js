@@ -1,5 +1,9 @@
 import { MenuAdmin } from '@/components/admin/MenuAdmin';
-import { requireLoginSessionOrRedirect } from '@/lib/login/manage-login';
+import {
+  requireLoginSessionOrRedirect,
+  returnCurrentUser,
+} from '@/lib/login/manage-login';
+import { toast } from 'react-toastify';
 
 type AdminPostLayoutProps = {
   children: React.ReactNode;
@@ -10,9 +14,17 @@ export default async function AdminPostLayout({
 }: Readonly<AdminPostLayoutProps>) {
   await requireLoginSessionOrRedirect();
 
+  const result = await returnCurrentUser().catch(() => undefined);
+
+  if (!result) {
+    throw toast.error('Faça login novamente');
+  }
+
+  const { username, usertype } = result;
+
   return (
     <>
-      <MenuAdmin />
+      <MenuAdmin username={username} usertype={usertype} />
       {children}
     </>
   );

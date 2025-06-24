@@ -10,12 +10,19 @@ import {
   LogOutIcon,
   MenuIcon,
   PlusIcon,
+  UserRoundIcon,
+  UserRoundPenIcon,
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 
-export function MenuAdmin() {
+type MenuAdminProps = {
+  username: string;
+  usertype: string;
+};
+
+export function MenuAdmin(props: MenuAdminProps) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
@@ -86,6 +93,20 @@ export function MenuAdmin() {
         <PlusIcon />
         Criar post
       </Link>
+
+      {props.usertype === 'admin' && (
+        <Link className={linkClasses} href='#'>
+          <UserRoundPenIcon />
+          Usuários
+        </Link>
+      )}
+
+      {props.usertype === 'author' && (
+        <Link className={linkClasses} href='#'>
+          <UserRoundIcon />
+          {props.username}
+        </Link>
+      )}
 
       <a onClick={handleLogout} href='#' className={linkClasses}>
         {isPending && (
