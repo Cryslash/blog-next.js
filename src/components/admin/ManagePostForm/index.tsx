@@ -15,11 +15,13 @@ import { useRouter, useSearchParams } from 'next/navigation';
 type ManagePostFormUpdateProps = {
   mode: 'update';
   publicPost: PublicPost;
+  currentUser: string;
 };
 
 type ManagePostFormCreateProps = {
   mode: 'create';
   publicPost?: PublicPost;
+  currentUser: string;
 };
 
 type ManagePostFormProps =
@@ -105,8 +107,10 @@ export function ManagePostForm(props: ManagePostFormProps) {
           name='author'
           placeholder='Digite o nome do autor'
           type='text'
-          defaultValue={formState.author}
+          // defaultValue={formState.author}
+          defaultValue={formState.author || props.currentUser}
           disabled={isPending}
+          readOnly
         />
 
         <InputText

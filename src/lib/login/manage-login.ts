@@ -12,6 +12,7 @@ const loginCookieName = process.env.LOGIN_COOKIE_NAME || 'loginSession';
 
 type JwtPayload = {
   username: string;
+  usertype: string;
   expiresAt: Date;
 };
 
@@ -26,9 +27,9 @@ export async function verifyPassword(password: string, base64Hash: string) {
   return await bcrypt.compare(password, hash);
 }
 
-export async function createLoginSession(username: string) {
+export async function createLoginSession(username: string, usertype: string) {
   const expiresAt = new Date(Date.now() + loginExpSeconds * 1000);
-  const loginSession = await signJwt({ username, expiresAt });
+  const loginSession = await signJwt({ username, usertype, expiresAt });
   const cookieStore = await cookies();
 
   cookieStore.set(loginCookieName, loginSession, {
@@ -92,4 +93,31 @@ export async function verifyJwt(jwt: string | undefined = '') {
     console.log('Invalid Token');
     return false;
   }
+}
+
+type returnCurrentUserProps = {
+  username: string;
+  usertype: string;
+};
+
+export async function returnCurrentUser(): Promise<returnCurrentUserProps> {
+  const session = await getLoginSession();
+  if (!session) {
+    throw 'Faça login novamente';
+  }
+  const { username, usertype } = session;
+
+  if (
+    !username ||
+    !usertype ||
+    typeof username != 'string' ||
+    typeof usertype != 'string'
+  ) {
+    throw 'credenciais inválidas';
+  }
+
+  return {
+    username,
+    usertype,
+  };
 }

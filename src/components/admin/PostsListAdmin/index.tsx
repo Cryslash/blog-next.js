@@ -1,11 +1,24 @@
-import { findAllPostsAdmin } from '@/lib/posts/queries/admin';
+import { findAllByAuthor, findAllPostsAdmin } from '@/lib/posts/queries/admin';
 import clsx from 'clsx';
 import Link from 'next/link';
 import { DeletePostButton } from '../DeletePostButton';
 import ErrorMessage from '../../ErrorMessage';
+import { returnCurrentUser } from '@/lib/login/manage-login';
+import { toast } from 'react-toastify';
 
 export default async function PostsListAdmin() {
-  const posts = await findAllPostsAdmin();
+  const result = await returnCurrentUser().catch(() => undefined);
+
+  if (!result) {
+    throw toast.error('Faça login novamente.');
+  }
+
+  const { username, usertype } = result;
+
+  const posts =
+    usertype === 'admin'
+      ? await findAllPostsAdmin()
+      : await findAllByAuthor(username);
 
   if (posts.length <= 0) {
     return <ErrorMessage contentTitle='Ei' content='Bora criar algum post?' />;
@@ -30,6 +43,8 @@ export default async function PostsListAdmin() {
                 (Não publicado)
               </span>
             )}
+
+            <span title='authorName' hidden defaultValue={post.author}></span>
 
             <DeletePostButton title={post.title} id={post.id} />
           </div>
