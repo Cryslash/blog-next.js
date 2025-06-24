@@ -19,6 +19,19 @@ export class DrizzlePostRepository implements PostRepository {
     return posts;
   }
 
+  async findAllByAuthor(author: string): Promise<PostModel[]> {
+    await AsyncDelay(simulateWaitMs, true);
+
+    const posts = await drizzleDb.query.posts.findMany({
+      where: (posts, { eq }) => eq(posts.author, author),
+      orderBy: (posts, { desc }) => desc(posts.createdAt),
+    });
+
+    if (!posts) throw new Error('Não há posts para o autor logado no momento');
+
+    return posts;
+  }
+
   async findBySlugPublic(slug: string): Promise<PostModel> {
     await AsyncDelay(simulateWaitMs, true);
 
@@ -68,13 +81,26 @@ export class DrizzlePostRepository implements PostRepository {
     return post;
   }
 
-  async delete(id: string): Promise<PostModel> {
+  async delete(
+    id: string,
+    username: string,
+    usertype: string,
+  ): Promise<PostModel> {
     const post = await drizzleDb.query.posts.findFirst({
       where: (posts, { eq }) => eq(posts.id, id),
     });
 
     if (!post) {
       throw new Error('Post não existe');
+    }
+
+    const isAuthor = post.author === username;
+    const isAdmin = usertype === 'admin';
+
+    const isAuthorized = isAdmin || isAuthor;
+
+    if (!isAuthorized) {
+      throw new Error('Você não tem autorização para realizar a ação');
     }
 
     await drizzleDb.delete(postsTable).where(eq(postsTable.id, id));
@@ -84,6 +110,8 @@ export class DrizzlePostRepository implements PostRepository {
 
   async update(
     id: string,
+    username: string,
+    usertype: string,
     newPostData: Omit<PostModel, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
   ): Promise<PostModel> {
     const oldPost = await drizzleDb.query.posts.findFirst({
@@ -92,6 +120,14 @@ export class DrizzlePostRepository implements PostRepository {
 
     if (!oldPost) {
       throw new Error('Post não existe');
+    }
+
+    const isAdmin = usertype === 'admin';
+    const isAuthor = username === oldPost.author;
+    const isAuthorized = isAdmin || isAuthor;
+
+    if (!isAuthorized) {
+      throw new Error('Você não tem autorização para realizar a ação');
     }
 
     const updatedAt = new Date().toISOString();
