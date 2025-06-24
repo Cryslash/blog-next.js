@@ -40,13 +40,6 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
     };
   }
 
-  //checa se o usuário existe na base de dados
-  // const isUsernameValid = username === process.env.LOGIN_USER;
-  // const isPasswordValid = await verifyPassword(
-  //   password,
-  //   process.env.LOGIN_PASS || '',
-  // );
-
   const dbUser = await findUserByName(username);
   if (!dbUser) {
     return {
@@ -57,9 +50,6 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
 
   const isUsernameValid = username === dbUser.name;
   const isPasswordValid = await verifyPassword(password, dbUser.password || '');
-  console.log(
-    `nome: ${dbUser.name} - senha: ${dbUser.password} - valido?: ${isPasswordValid}`,
-  );
 
   if (!isUsernameValid || !isPasswordValid) {
     return {
@@ -68,6 +58,6 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
     };
   }
 
-  await createLoginSession(username);
+  await createLoginSession(username, dbUser.userType);
   redirect('/admin/post');
 }

@@ -7,5 +7,5 @@ import { redirect } from 'next/navigation';
 export async function LogoutAction() {
   await AsyncDelay(3000); //vou manter
   await deleteLoginSession();
-  redirect('/');
+  redirect('/admin/login');
 }

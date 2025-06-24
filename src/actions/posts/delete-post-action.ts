@@ -1,25 +1,23 @@
 'use server';
 
-import { verifyLoginSession } from '@/lib/login/manage-login';
+import { returnCurrentUser } from '@/lib/login/manage-login';
 import { postRepository } from '@/repositories/post';
 import { revalidateTag } from 'next/cache';
 
 export async function deletePostAction(id: string) {
-  const isAuthenticated = await verifyLoginSession();
+  const result = await returnCurrentUser().catch(() => undefined);
 
-  if (!isAuthenticated) {
+  if (!result) {
     return {
-      error: 'Faça login novamente.',
+      error: 'Faça login novamente',
     };
   }
 
-  if (!id || typeof id != 'string') {
-    return { error: 'dados inválidos' };
-  }
+  const { username, usertype } = result;
 
   let post;
   try {
-    post = await postRepository.delete(id);
+    post = await postRepository.delete(id, username, usertype);
   } catch (e: unknown) {
     if (e instanceof Error) {
       return {
