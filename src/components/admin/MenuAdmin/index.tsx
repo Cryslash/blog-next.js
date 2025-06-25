@@ -95,14 +95,14 @@ export function MenuAdmin(props: MenuAdminProps) {
       </Link>
 
       {props.usertype === 'admin' && (
-        <Link className={linkClasses} href='#'>
+        <Link className={linkClasses} href='/admin/user'>
           <UserRoundPenIcon />
           Usuários
         </Link>
       )}
 
       {props.usertype === 'author' && (
-        <Link className={linkClasses} href='#'>
+        <Link className={linkClasses} href='/admin/user'>
           <UserRoundIcon />
           {props.username}
         </Link>
