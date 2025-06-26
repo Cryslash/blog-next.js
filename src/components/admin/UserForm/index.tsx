@@ -7,12 +7,7 @@ import { SaveIcon } from 'lucide-react';
 import { useActionState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-type UserFormProps = {
-  username: string;
-  usertype: string;
-};
-
-export default function UserForm(props: UserFormProps) {
+export default function UserForm() {
   const initalState = {
     success: '',
     error: '',
@@ -38,14 +33,8 @@ export default function UserForm(props: UserFormProps) {
   }, [state]);
 
   return (
-    <div className='flex items-center justify-center text-center max-w-sm mt-16 mb-32 mx-auto'>
+    <div className='flex items-center justify-center text-center max-w-sm mt-8 mb-32 mx-auto'>
       <form action={action} className='flex flex-col gap-6'>
-        <p className='text-2xl text-slate-600'>
-          Olá,
-          <span className='font-bold text-2xl '> {props.username}</span>. Você é
-          um <span className='font-bold text-2xl '>{props.usertype}.</span>
-        </p>
-
         <p className='text-xl'>Deseja mudar a sua senha?</p>
 
         <InputText

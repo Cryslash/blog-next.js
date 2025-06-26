@@ -61,67 +61,74 @@ export function MenuAdmin(props: MenuAdminProps) {
   }
 
   return (
-    <nav className={navClasses}>
-      <button
-        className={openCloseBtnClasses}
-        onClick={() => setIsOpen(prev => !prev)}
-      >
-        {!isOpen && (
-          <>
-            <MenuIcon />
-            Menu
-          </>
-        )}
-        {isOpen && (
-          <>
-            <CircleXIcon />
-            Fechar
-          </>
-        )}
-      </button>
-      <a className={linkClasses} href='/' target='_blank'>
-        <HouseIcon />
-        Home
-      </a>
+    <>
+      <nav className={navClasses}>
+        <button
+          className={openCloseBtnClasses}
+          onClick={() => setIsOpen(prev => !prev)}
+        >
+          {!isOpen && (
+            <>
+              <MenuIcon />
+              Menu
+            </>
+          )}
+          {isOpen && (
+            <>
+              <CircleXIcon />
+              Fechar
+            </>
+          )}
+        </button>
+        <a className={linkClasses} href='/' target='_blank'>
+          <HouseIcon />
+          Home
+        </a>
 
-      <Link className={linkClasses} href='/admin/post'>
-        <FileTextIcon />
-        Posts
-      </Link>
-
-      <Link className={linkClasses} href='/admin/post/new'>
-        <PlusIcon />
-        Criar post
-      </Link>
-
-      {props.usertype === 'admin' && (
-        <Link className={linkClasses} href='/admin/user'>
-          <UserRoundPenIcon />
-          Usuários
+        <Link className={linkClasses} href='/admin/post'>
+          <FileTextIcon />
+          Posts
         </Link>
-      )}
 
-      {props.usertype === 'author' && (
-        <Link className={linkClasses} href='/admin/user'>
-          <UserRoundIcon />
-          {props.username}
+        <Link className={linkClasses} href='/admin/post/new'>
+          <PlusIcon />
+          Criar post
         </Link>
-      )}
 
-      <a onClick={handleLogout} href='#' className={linkClasses}>
-        {isPending && (
-          <>
-            <HourglassIcon />
-            Aguarde...
-          </>
+        {props.usertype === 'admin' && (
+          <Link className={linkClasses} href='/admin/user'>
+            <UserRoundPenIcon />
+            Usuários
+          </Link>
         )}
-        {!isPending && (
-          <>
-            <LogOutIcon />
-            Sair
-          </>
+
+        {props.usertype === 'author' && (
+          <Link className={linkClasses} href='/admin/user'>
+            <UserRoundIcon />
+            Usuário
+          </Link>
         )}
-      </a>
-    </nav>
+
+        <a onClick={handleLogout} href='#' className={linkClasses}>
+          {isPending && (
+            <>
+              <HourglassIcon />
+              Aguarde...
+            </>
+          )}
+          {!isPending && (
+            <>
+              <LogOutIcon />
+              Sair
+            </>
+          )}
+        </a>
+      </nav>
+
+      <h1 className={'text-2xl mb-4 text-center'}>
+        Olá <span className='font-bold'> {props.username}</span>, você é um{' '}
+        <span className='font-bold'> {props.usertype}</span>.
+      </h1>
+    </>
   );
 }

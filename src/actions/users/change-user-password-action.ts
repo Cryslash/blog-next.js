@@ -3,7 +3,6 @@
 import { returnCurrentUser, verifyPassword } from '@/lib/login/manage-login';
 import { findUserByName } from '@/lib/users/queries/admin';
 import { userRepository } from '@/repositories/user';
-import { AsyncDelay } from '@/utils/async-delay';
 import { toast } from 'react-toastify';
 
 type ChangeUserPasswordActionState = {
