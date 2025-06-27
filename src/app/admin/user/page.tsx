@@ -1,5 +1,5 @@
-import UserForm from '@/components/admin/UserForm';
+import ManageUserForm from '@/components/admin/ManageUserForm';
 
 export default async function UserPage() {
-  return <UserForm />;
+  return <ManageUserForm />;
 }
