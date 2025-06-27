@@ -33,7 +33,7 @@ export function ChangePasswordForm() {
   }, [state]);
   return (
     // <div className='flex items-center justify-center text-center max-w-sm mt-8 mb-32 mx-auto'>
-    <div className='flex items-center self-center justify-center text-center max-w-sm mt-8 mb-16 sm:mb-32'>
+    <div className='flex items-center self-center justify-center text-center max-w-sm my-8 sm:mb-32'>
       <form action={action} className='flex flex-col gap-6'>
         <p className='text-xl'>Deseja mudar a sua senha?</p>
 

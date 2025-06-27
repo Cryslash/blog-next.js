@@ -13,7 +13,7 @@ export async function UsersList() {
         return (
           <div
             key={user.id}
-            className='flex justify-between items-center sm:min-w-90 px-2 gap-10 bg-slate-200 '
+            className='flex justify-between items-center px-2 gap-10 bg-slate-200 '
           >
             <p>{user.name}</p>
             <p>{user.userType}</p>
