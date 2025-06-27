@@ -13,7 +13,7 @@ export default async function ManageUserForm() {
 
   if (usertype === 'admin') {
     return (
-      <div className='flex flex-col justify-center gap-x-20 sm:flex-row '>
+      <div className='flex flex-col justify-center gap-x-5 sm:flex-row '>
         <ChangePasswordForm />
 
         <UsersList />

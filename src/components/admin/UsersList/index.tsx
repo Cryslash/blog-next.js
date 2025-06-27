@@ -7,7 +7,7 @@ export async function UsersList() {
   const users = await findAllUsers();
 
   return (
-    <div className='flex flex-col mt-8 mb-16 gap-y-8 sm:mb-32'>
+    <div className='flex flex-col mt-8 mb-16 mx-auto gap-y-8 sm:mb-32'>
       <h1 className='text-xl text-center'>Gerenciar usuários</h1>
       {users.map(user => {
         return (
