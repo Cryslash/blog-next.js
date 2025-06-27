@@ -7,7 +7,7 @@ import { SaveIcon } from 'lucide-react';
 import { useActionState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 
-export default function UserForm() {
+export function ChangePasswordForm() {
   const initalState = {
     success: '',
     error: '',
@@ -31,9 +31,9 @@ export default function UserForm() {
       toast.success(state.success);
     }
   }, [state]);
-
   return (
-    <div className='flex items-center justify-center text-center max-w-sm mt-8 mb-32 mx-auto'>
+    // <div className='flex items-center justify-center text-center max-w-sm mt-8 mb-32 mx-auto'>
+    <div className='flex items-center self-center justify-center text-center max-w-sm mt-8 mb-16 sm:mb-32'>
       <form action={action} className='flex flex-col gap-6'>
         <p className='text-xl'>Deseja mudar a sua senha?</p>
 
