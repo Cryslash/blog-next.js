@@ -44,8 +44,6 @@ export default async function PostsListAdmin() {
               </span>
             )}
 
-            <span title='authorName' hidden defaultValue={post.author}></span>
-
             <DeletePostButton title={post.title} id={post.id} />
           </div>
         );
