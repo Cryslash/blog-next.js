@@ -125,7 +125,7 @@ export function MenuAdmin(props: MenuAdminProps) {
         </a>
       </nav>
 
-      <h1 className={'text-2xl mb-4 text-center'}>
+      <h1 className={'text-xl mb-4 sm:text-2xl'}>
         Olá <span className='font-bold'> {props.username}</span>, você é um{' '}
         <span className='font-bold'> {props.usertype}</span>.
       </h1>
