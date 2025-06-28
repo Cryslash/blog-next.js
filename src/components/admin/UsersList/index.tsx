@@ -2,6 +2,7 @@ import { Button } from '@/components/Button';
 import { findAllUsers } from '@/lib/users/queries/admin';
 import clsx from 'clsx';
 import { RefreshCcwIcon, TrashIcon } from 'lucide-react';
+import { DeleteUserButton } from '../DeleteUserButton';
 
 export async function UsersList() {
   const users = await findAllUsers();
@@ -30,18 +31,7 @@ export async function UsersList() {
               >
                 <RefreshCcwIcon />
               </Button>
-              <Button
-                className={clsx(
-                  'text-red-500 [&_svg]:w-4 [&_svg]:h-4 bg-transparent',
-                  'cursor-pointer transition',
-                  'hover:scale-120 hover:text-red-700 hover:bg-transparent',
-                  'disabled:text-slate-600 disabled:cursor-not-allowed',
-                )}
-                title='Excluir usuário'
-                aria-label='Excluir usuário'
-              >
-                <TrashIcon />
-              </Button>
+              <DeleteUserButton username={user.name} id={user.id} />
             </div>
           </div>
         );
