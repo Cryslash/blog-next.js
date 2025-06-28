@@ -16,6 +16,10 @@ export function DeleteUserButton({ username, id }: DeleteUserButtonProps) {
   const [isPending, startTransition] = useTransition();
 
   function handleClick() {
+    if (username === 'admin') {
+      toast.error('Usuário admin não pode ser deletado');
+      return;
+    }
     setShowDialog(true);
   }
 
