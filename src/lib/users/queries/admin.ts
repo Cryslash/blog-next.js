@@ -1,7 +1,18 @@
 import { userRepository } from '@/repositories/user';
+import { unstable_cache } from 'next/cache';
 import { cache } from 'react';
 
-export const findAllUsers = cache(async () => await userRepository.findAll());
+export const findAllUsers = cache(
+  unstable_cache(
+    async () => {
+      return await userRepository.findAll();
+    },
+    ['users'],
+    {
+      tags: ['users'],
+    },
+  ),
+);
 
 export const findUserByName = cache(
   async (name: string) =>

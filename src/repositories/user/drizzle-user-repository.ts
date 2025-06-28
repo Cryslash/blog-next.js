@@ -68,4 +68,26 @@ export class DrizzleUserRepository implements UserRepository {
       ...newUserData,
     };
   }
+
+  async delete(id: number): Promise<UserModel> {
+    const user = await drizzleDb.query.users.findFirst({
+      where: (user, { eq }) => eq(user.id, id),
+    });
+
+    if (!user) {
+      throw new Error('Usuário não existe na base de dados');
+    }
+
+    const newUserData = { isActive: false };
+
+    await drizzleDb
+      .update(usersTable)
+      .set(newUserData)
+      .where(eq(usersTable.id, id));
+
+    return {
+      ...user,
+      ...newUserData,
+    };
+  }
 }
