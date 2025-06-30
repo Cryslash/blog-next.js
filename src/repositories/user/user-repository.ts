@@ -8,4 +8,9 @@ export interface UserRepository {
   //mutations
   update(userName: string, newPassword: string): Promise<UserModel>;
   delete(id: number): Promise<UserModel>;
+  create(
+    userName: string,
+    password: string,
+    isAdmin: boolean,
+  ): Promise<UserModel>;
 }

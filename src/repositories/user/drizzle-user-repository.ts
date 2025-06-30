@@ -9,6 +9,7 @@ export class DrizzleUserRepository implements UserRepository {
   async findAll(): Promise<UserModel[]> {
     const users = await drizzleDb.query.users.findMany({
       where: (users, { eq }) => eq(users.isActive, true),
+      orderBy: (users, { desc }) => desc(users.id),
     });
 
     return users;
@@ -26,8 +27,9 @@ export class DrizzleUserRepository implements UserRepository {
 
   async findByName(name: string): Promise<UserModel> {
     const user = await drizzleDb.query.users.findFirst({
-      where: (user, { and }) =>
-        and(eq(user.name, name), eq(user.isActive, true)),
+      // where: (user, { and }) =>
+      // and(eq(user.name, name), eq(user.isActive, true)),
+      where: (user, { eq }) => eq(user.name, name),
     });
 
     if (!user) throw new Error('Nome de usuario não encontrado');
@@ -90,5 +92,28 @@ export class DrizzleUserRepository implements UserRepository {
       ...user,
       ...newUserData,
     };
+  }
+
+  async create(
+    userName: string,
+    password: string,
+    isAdmin: boolean,
+  ): Promise<UserModel> {
+    if (!userName || userName == '') {
+      throw new Error('Um nome de usuário deve ser informado');
+    }
+    if (!password || password == '') {
+      throw new Error('Uma senha deve ser informada');
+    }
+    const hashedPassword = await hashPassword(password);
+    const userType = isAdmin ? 'admin' : 'author';
+    const userData: UserModel = {
+      name: userName,
+      password: hashedPassword,
+      userType: userType,
+      isActive: true,
+    };
+    await drizzleDb.insert(usersTable).values(userData);
+    return userData;
   }
 }
