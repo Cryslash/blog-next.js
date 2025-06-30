@@ -46,11 +46,16 @@ export function RestoreUserButton({ userName, id }: RestoreUserButtonProps) {
       >
         <RefreshCcwIcon />
       </Button>
-      {!!showDialog && (
+      {showDialog && (
         <Dialog
           isVisible={showDialog}
           title='Restaurar Usuário?'
-          content={`Deseja restaurar o usuário ${userName} ?`}
+          content={
+            <p>
+              Deseja restaurar o usuário
+              <span className='font-bold'> {userName}</span>
+            </p>
+          }
           onCancel={() => setShowDialog(false)}
           onConfirm={handleRestoreUser}
           disabled={isPending}

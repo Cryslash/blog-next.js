@@ -17,7 +17,7 @@ export function DeleteUserButton({ username, id }: DeleteUserButtonProps) {
 
   function handleClick() {
     if (username === 'admin') {
-      toast.error('Usuário admin não pode ser deletado');
+      toast.error('Usuário admin não pode ser inativado');
       return;
     }
     setShowDialog(true);
@@ -34,7 +34,7 @@ export function DeleteUserButton({ username, id }: DeleteUserButtonProps) {
         toast.error(result.error);
         return;
       }
-      toast.success('Usuário apagado com sucesso');
+      toast.success('Usuário inativado com sucesso');
     });
   }
 
@@ -46,8 +46,8 @@ export function DeleteUserButton({ username, id }: DeleteUserButtonProps) {
           'cursor-pointer transition',
           'hover:scale-120 ',
         )}
-        title={`Deletar o usuário ${username}`}
-        aria-label={`Deletar o usuário ${username}`}
+        title={`Inativar o usuário ${username}`}
+        aria-label={`Inativar o usuário ${username}`}
         onClick={handleClick}
       >
         <Trash2Icon />
@@ -55,8 +55,13 @@ export function DeleteUserButton({ username, id }: DeleteUserButtonProps) {
       {showDialog && (
         <Dialog
           isVisible={showDialog}
-          title='Apagar usuário?'
-          content={`Deseja apagar o usuário ${username}`}
+          title='Inativar usuário?'
+          content={
+            <p>
+              Deseja inativar o usuário
+              <span className='font-bold'> {username}</span>
+            </p>
+          }
           onCancel={() => setShowDialog(false)}
           onConfirm={handleConfirm}
           disabled={isPending}
