@@ -47,6 +47,12 @@ export async function loginAction(state: LoginActionState, formData: FormData) {
       error: 'Usuário ou senha inválidos',
     };
   }
+  if (!dbUser.isActive) {
+    return {
+      username,
+      error: 'Usuário ou senha inválidos',
+    };
+  }
 
   const isUsernameValid = username === dbUser.name;
   const isPasswordValid = await verifyPassword(password, dbUser.password || '');
