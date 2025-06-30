@@ -20,12 +20,14 @@ export async function UsersList() {
             key={user.id}
             className={clsx(
               'flex justify-between items-center w-72 px-3 bg-slate-200 sm:w-90',
-              !user.isActive && 'bg-slate-300 text-slate-600',
+              !user.isActive && 'bg-slate-300',
             )}
           >
             <p>{user.name}</p>
             <p>{user.userType}</p>
-            {!user.isActive && <p className='text-xs italic'>(inativo) </p>}
+            {!user.isActive && (
+              <span className='text-xs italic text-slate-600'>(inativo) </span>
+            )}
             <div className='flex flex-row gap-5 h-9'>
               {!user.isActive && (
                 <RestoreUserButton userName={user.name} id={user.id} />
