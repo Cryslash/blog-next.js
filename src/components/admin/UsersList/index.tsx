@@ -28,9 +28,7 @@ export async function UsersList() {
             {!user.isActive && <p className='text-xs italic'>(inativo) </p>}
             <div className='flex flex-row gap-5 h-9'>
               {!user.isActive && (
-                <button>
-                  <RestoreUserButton userName={user.name} id={user.id} />
-                </button>
+                <RestoreUserButton userName={user.name} id={user.id} />
               )}
               {!!user.isActive && (
                 <>
