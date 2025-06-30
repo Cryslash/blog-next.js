@@ -1,10 +1,12 @@
 'use client';
 
+import { RestoreUserAction } from '@/actions/users/restore-user-action';
 import { Button } from '@/components/Button';
 import { Dialog } from '@/components/Dialog';
 import clsx from 'clsx';
 import { RefreshCcwIcon } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
+import { toast } from 'react-toastify';
 
 type RestoreUserButtonProps = {
   userName: string;
@@ -13,6 +15,20 @@ type RestoreUserButtonProps = {
 
 export function RestoreUserButton({ userName, id }: RestoreUserButtonProps) {
   const [showDialog, setShowDialog] = useState(false);
+  const [isPending, startTransition] = useTransition();
+
+  function handleRestoreUser() {
+    startTransition(async () => {
+      const result = await RestoreUserAction(id);
+      if (result.error) {
+        toast.error(result.error);
+        return;
+      }
+
+      setShowDialog(false);
+      toast.success(`O usuário ${userName} foi restaurado`);
+    });
+  }
 
   return (
     <>
@@ -36,8 +52,8 @@ export function RestoreUserButton({ userName, id }: RestoreUserButtonProps) {
           title='Restaurar Usuário?'
           content={`Deseja restaurar o usuário ${userName} ?`}
           onCancel={() => setShowDialog(false)}
-          onConfirm={() => undefined}
-          disabled={false}
+          onConfirm={handleRestoreUser}
+          disabled={isPending}
         />
       )}
     </>
