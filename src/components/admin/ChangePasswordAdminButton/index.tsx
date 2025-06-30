@@ -4,7 +4,7 @@ import { ChangeUserPasswordAdminAction } from '@/actions/users/change-user-passw
 import { Dialog } from '@/components/Dialog';
 import { InputText } from '@/components/InputText';
 import clsx from 'clsx';
-import { RefreshCcwIcon } from 'lucide-react';
+import { UserRoundPenIcon } from 'lucide-react';
 import { useEffect, useRef, useState, useTransition } from 'react';
 import { toast } from 'react-toastify';
 
@@ -62,16 +62,15 @@ export function ChangePasswordAdminButton({
     <>
       <button
         className={clsx(
-          'text-blue-800 [&_svg]:w-4 [&_svg]:h-4 bg-transparent',
+          'text-slate-900 [&_svg]:w-4 [&_svg]:h-4 bg-transparent',
           'cursor-pointer transition',
-          'hover:scale-120 hover:text-blue-900 hover:bg-transparent',
-          'disabled:text-slate-600 disabled:cursor-not-allowed',
+          'hover:scale-120 hover:bg-transparent',
         )}
         title={`Mudar senha do usuário ${username}`}
         aria-label={`Mudar senha do usuário ${username}`}
         onClick={handleClick}
       >
-        <RefreshCcwIcon />
+        <UserRoundPenIcon />
       </button>
 
       {showDialog && (

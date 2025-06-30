@@ -42,9 +42,9 @@ export function DeleteUserButton({ username, id }: DeleteUserButtonProps) {
     <>
       <button
         className={clsx(
-          'text-red-500 [&_svg]:w-4 [&_svg]:h-4',
+          'text-slate-900 [&_svg]:w-4 [&_svg]:h-4',
           'cursor-pointer transition',
-          'hover:scale-120 hover:text-red-700',
+          'hover:scale-120 ',
         )}
         title={`Deletar o usuário ${username}`}
         aria-label={`Deletar o usuário ${username}`}

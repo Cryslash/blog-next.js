@@ -8,8 +8,7 @@ import { eq } from 'drizzle-orm';
 export class DrizzleUserRepository implements UserRepository {
   async findAll(): Promise<UserModel[]> {
     const users = await drizzleDb.query.users.findMany({
-      where: (users, { eq }) => eq(users.isActive, true),
-      orderBy: (users, { desc }) => desc(users.id),
+      orderBy: (users, { desc }) => desc(users.isActive),
     });
 
     return users;
@@ -27,8 +26,6 @@ export class DrizzleUserRepository implements UserRepository {
 
   async findByName(name: string): Promise<UserModel> {
     const user = await drizzleDb.query.users.findFirst({
-      // where: (user, { and }) =>
-      // and(eq(user.name, name), eq(user.isActive, true)),
       where: (user, { eq }) => eq(user.name, name),
     });
 

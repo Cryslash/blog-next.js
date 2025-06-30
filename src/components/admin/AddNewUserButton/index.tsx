@@ -4,7 +4,6 @@ import { createUserAction } from '@/actions/users/create-user-action';
 import { Dialog } from '@/components/Dialog';
 import { InputCheckBox } from '@/components/InputCheckBox';
 import { InputText } from '@/components/InputText';
-import { userRepository } from '@/repositories/user';
 import { AsyncDelay } from '@/utils/async-delay';
 import { PlusIcon } from 'lucide-react';
 import { useEffect, useRef, useState, useTransition } from 'react';
