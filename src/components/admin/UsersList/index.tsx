@@ -1,6 +1,7 @@
 import { findAllUsers } from '@/lib/users/queries/admin';
 import { DeleteUserButton } from '../DeleteUserButton';
 import { ChangePasswordAdminButton } from '../ChangePasswordAdminButton';
+import { AddNewUserButton } from '../AddNewUserButton';
 
 export async function UsersList() {
   const users = await findAllUsers();
@@ -8,6 +9,9 @@ export async function UsersList() {
   return (
     <div className='flex flex-col mt-8 mb-16 mx-auto gap-y-8 sm:mb-32'>
       <h3 className='text-xl text-center'>Gerenciar usuários</h3>
+
+      <AddNewUserButton />
+
       {users.map(user => {
         return (
           <div
