@@ -2,6 +2,7 @@
 
 import { ChangeUserPasswordAdminAction } from '@/actions/users/change-user-password-admin-action';
 import { Dialog } from '@/components/Dialog';
+import { InputCheckBox } from '@/components/InputCheckBox';
 import { InputText } from '@/components/InputText';
 import clsx from 'clsx';
 import { UserRoundPenIcon } from 'lucide-react';
@@ -11,11 +12,13 @@ import { toast } from 'react-toastify';
 type ChangePasswordAdminButtonProps = {
   id?: number;
   username: string;
+  isAdmin: boolean;
 };
 
 export function ChangePasswordAdminButton({
   id,
   username,
+  isAdmin,
 }: ChangePasswordAdminButtonProps) {
   const [showDialog, setShowDialog] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -46,6 +49,7 @@ export function ChangePasswordAdminButton({
         return;
       }
 
+      // TODO: update action to change user type
       const result = await ChangeUserPasswordAdminAction(newPassword, id);
       setShowDialog(false);
 
@@ -105,6 +109,11 @@ export function ChangePasswordAdminButton({
                 placeholder='confirme a nova senha'
                 value={confirmNewPassword}
                 onChange={e => setConfirmNewPassword(e.target.value)}
+              />
+              <InputCheckBox
+                type='checkbox'
+                labelText='Usuário administrador'
+                checked={isAdmin}
               />
             </div>
           }

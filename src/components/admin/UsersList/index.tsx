@@ -37,6 +37,7 @@ export async function UsersList() {
                   <ChangePasswordAdminButton
                     username={user.name}
                     id={user.id}
+                    isAdmin={user.userType === 'admin' ? true : false}
                   />
 
                   <DeleteUserButton username={user.name} id={user.id} />
