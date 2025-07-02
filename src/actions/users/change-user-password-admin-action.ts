@@ -4,10 +4,13 @@ import { drizzleDb } from '@/db/drizzle';
 import { usersTable } from '@/db/drizzle/schemas';
 import { hashPassword, returnCurrentUser } from '@/lib/login/manage-login';
 import { findUserById } from '@/lib/users/queries/admin';
+import { UserModel } from '@/models/user/user-model';
 import { eq } from 'drizzle-orm';
+import { revalidateTag } from 'next/cache';
 
 export async function ChangeUserPasswordAdminAction(
   newPassword: string,
+  isAdmin: boolean,
   id?: number,
 ) {
   if (!id) {
@@ -21,8 +24,7 @@ export async function ChangeUserPasswordAdminAction(
     };
   }
 
-  const { usertype } = result;
-  if (usertype != 'admin') {
+  if (result.usertype != 'admin') {
     return {
       error: 'Você não tem autorização para realizar a ação',
     };
@@ -34,9 +36,17 @@ export async function ChangeUserPasswordAdminAction(
       error: 'Usuário não encontrado na base de dados',
     };
   }
+  type userTypeProps = 'admin' | 'author';
 
-  const hash64Password = await hashPassword(newPassword);
-  const newUserData = { password: hash64Password };
+  const userType: userTypeProps = isAdmin ? 'admin' : 'author';
+  let newUserData: UserModel = { ...user, userType };
+
+  if (newPassword != '') {
+    const hash64Password = await hashPassword(newPassword);
+    newUserData = { ...newUserData, password: hash64Password };
+  }
+
+  // const newUserData = { password: hash64Password, usertype };
 
   try {
     await drizzleDb
@@ -53,6 +63,8 @@ export async function ChangeUserPasswordAdminAction(
       error: 'Erro desconhecido',
     };
   }
+
+  revalidateTag('users');
 
   return { error: '' };
 }

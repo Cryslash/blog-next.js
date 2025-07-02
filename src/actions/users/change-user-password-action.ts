@@ -70,7 +70,7 @@ export async function ChangeUserPasswordAction(
   }
 
   return {
-    success: 'Senha atualizada com sucesso',
+    success: 'Usuário atualizado com sucesso',
     error: '',
   };
 }

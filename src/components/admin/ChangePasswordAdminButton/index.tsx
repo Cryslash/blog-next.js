@@ -25,6 +25,7 @@ export function ChangePasswordAdminButton({
 
   const [newPassword, setNewPassword] = useState('');
   const [confirmNewPassword, setConfirmNewPassword] = useState('');
+  const [isChecked, setIsChecked] = useState(isAdmin);
 
   const newPasswordRef = useRef<HTMLInputElement>(null);
   useEffect(() => {
@@ -49,8 +50,11 @@ export function ChangePasswordAdminButton({
         return;
       }
 
-      // TODO: update action to change user type
-      const result = await ChangeUserPasswordAdminAction(newPassword, id);
+      const result = await ChangeUserPasswordAdminAction(
+        newPassword,
+        isChecked,
+        id,
+      );
       setShowDialog(false);
 
       if (result.error != '') {
@@ -58,7 +62,7 @@ export function ChangePasswordAdminButton({
         resetInputValues();
         return;
       }
-      toast.success('Senha atualizada com sucesso');
+      toast.success('Usuário atualizado com sucesso');
     });
   }
 
@@ -110,10 +114,12 @@ export function ChangePasswordAdminButton({
                 value={confirmNewPassword}
                 onChange={e => setConfirmNewPassword(e.target.value)}
               />
+              <h3>Deixe a senha em branco para alterar o nível.</h3>
               <InputCheckBox
                 type='checkbox'
                 labelText='Usuário administrador'
-                checked={isAdmin}
+                checked={isChecked}
+                onChange={e => setIsChecked(e.target.checked)}
               />
             </div>
           }
