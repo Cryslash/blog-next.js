@@ -4,6 +4,7 @@ type ButtonVariants = 'default' | 'ghost' | 'danger';
 type ButtonSizes = 'sm' | 'md' | 'lg';
 
 type ButtonProps = {
+  children: React.ReactNode;
   variant?: ButtonVariants;
   size?: ButtonSizes;
 } & React.ComponentProps<'button'>;

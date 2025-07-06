@@ -2,7 +2,7 @@ import { PostModel } from '@/models/post/post-model';
 import { PostRepository } from './post-repository';
 import { resolve } from 'path';
 import { readFile, writeFile } from 'fs/promises';
-import { SIMULATE_WAIT_IN_MS } from '@/lib/constants';
+import { AsyncDelay } from '@/utils/async-delay';
 
 const ROOT_DIR = process.cwd();
 const JSON_POSTS_FILE_PATH = resolve(
@@ -13,13 +13,12 @@ const JSON_POSTS_FILE_PATH = resolve(
   'posts.json',
 );
 
+const simulateWaitMs = Number(process.env.SIMULATE_WAIT_IN_MS) || 0;
+
 export class JsonPostRepository implements PostRepository {
-  private async simulateWait() {
-    if (SIMULATE_WAIT_IN_MS <= 0) return;
-
-    await new Promise(resolve => setTimeout(resolve, SIMULATE_WAIT_IN_MS));
+  findAllByAuthor(author: string): Promise<PostModel[]> {
+    throw new Error('Method not implemented.');
   }
-
   private async readFromDisk(): Promise<PostModel[]> {
     const jsonContent = await readFile(JSON_POSTS_FILE_PATH, 'utf-8');
     const parsedJson = JSON.parse(jsonContent);
@@ -33,14 +32,14 @@ export class JsonPostRepository implements PostRepository {
   }
 
   async findAllPublic(): Promise<PostModel[]> {
-    await this.simulateWait();
+    await AsyncDelay(simulateWaitMs, true);
 
     const posts = await this.readFromDisk();
     return posts.filter(post => post.published);
   }
 
   async findAll(): Promise<PostModel[]> {
-    await this.simulateWait();
+    await AsyncDelay(simulateWaitMs, true);
 
     const posts = await this.readFromDisk();
     return posts;
@@ -99,9 +98,11 @@ export class JsonPostRepository implements PostRepository {
 
     return post;
   }
-
+  //Update function does not work (it is not used for anything)
   async update(
     id: string,
+    username: string,
+    usertype: string,
     newPostData: Omit<PostModel, 'id' | 'slug' | 'createdAt' | 'updatedAt'>,
   ): Promise<PostModel> {
     const posts = await this.findAll();
