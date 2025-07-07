@@ -43,7 +43,14 @@ export async function ChangeUserPasswordAction(
   if (!isPasswordValid) {
     return {
       success: '',
-      error: 'Senha atual inválida.',
+      error: 'Senha atual inválida',
+    };
+  }
+
+  if (password.length < 5) {
+    return {
+      success: '',
+      error: 'A senha deve ter no mínimo 6 caracteres',
     };
   }
 

@@ -41,12 +41,16 @@ export async function ChangeUserPasswordAdminAction(
   const userType: userTypeProps = isAdmin ? 'admin' : 'author';
   let newUserData: UserModel = { ...user, userType };
 
+  if (newPassword.length < 5) {
+    return {
+      error: 'A senha deve ter no mínimo 6 caracteres',
+    };
+  }
+
   if (newPassword != '') {
     const hash64Password = await hashPassword(newPassword);
     newUserData = { ...newUserData, password: hash64Password };
   }
-
-  // const newUserData = { password: hash64Password, usertype };
 
   try {
     await drizzleDb
